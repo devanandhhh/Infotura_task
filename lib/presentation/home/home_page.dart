@@ -1,3 +1,4 @@
+import 'package:demo_project_one/core/constant.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -11,11 +12,12 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[200],
       body: Column(
         children: [
           Container(
             decoration: BoxDecoration(
-                color: Colors.blue[200],
+                color: Colors.blueGrey[200],
                 borderRadius: BorderRadius.circular(14)),
             height: 170,
             width: MediaQuery.of(context).size.width,
@@ -90,14 +92,14 @@ class HomePage extends StatelessWidget {
           ),
           Expanded(
             child: GridView.builder(
-              itemCount: 5,
+              itemCount: 6,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   crossAxisSpacing: 5,
                   mainAxisSpacing: 10,
                   childAspectRatio: .70),
               itemBuilder: (context, index) {
-                return customGridView();
+                return customGridView(imageUrl: imageList[index], index: index);
               },
             ),
           )
@@ -106,14 +108,20 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Container customGridView() {
-    return Container(
-      color: Colors.lightBlue[100],
+  SizedBox customGridView({required String imageUrl, required int index}) {
+    return SizedBox(
+      //color: Colors.lightBlue[100],
       child: Column(
         children: [
           Container(
             height: 200,
-            decoration: BoxDecoration(color: Colors.red[100]),
+            decoration: BoxDecoration(
+                color: Colors.red[100],
+                image: DecorationImage(
+                    fit: BoxFit.cover,
+                    image: NetworkImage(
+                      imageUrl,
+                    ))),
             child: Padding(
               padding: const EdgeInsets.only(left: 8, right: 8.0),
               child: Column(
@@ -131,9 +139,9 @@ class HomePage extends StatelessWidget {
                   Column(
                     children: [
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          premiumVarantOfferBox(),
+                          0 == index ? premiumVarantOfferBox() : Gap(1),
                           CircleAvatar(
                             radius: 17,
                             backgroundColor: Colors.grey[300],
@@ -153,7 +161,7 @@ class HomePage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("Motor hector plus",
+                Text(carName[index],
                     style: GoogleFonts.roboto(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
@@ -166,7 +174,7 @@ class HomePage extends StatelessWidget {
                     Gap(5),
                     customContainer(text: "Petrol"),
                     Gap(5),
-                    customContainer(text: "automatci")
+                    customContainer(text: "Manual")
                   ],
                 ),
                 Gap(2),
